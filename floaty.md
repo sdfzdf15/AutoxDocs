@@ -32,9 +32,12 @@ if (!floaty.checkPermission()) {
 }
 ```
 
-## floaty.window(layout)
+## floaty.window(layout[,  x = 0, y = 0])
 
 * `layout` {xml} | {View} 悬浮窗界面的XML或者View
+* `x` {number} x坐标
+* `y` {number} y坐标
+
 
 指定悬浮窗的布局，创建并**显示**一个悬浮窗，返回一个[FloatyWindow](#floatywindow)对象。
 
@@ -64,8 +67,10 @@ ui.run(function(){
 
 有关返回的`FloatyWindow`对象的说明，参见下面的`FloatyWindow`章节。
 
-## floaty.rawWindow(layout)
+## floaty.rawWindow(layout[,  x = 0, y = 0])
 * `layout` {xml} | {View} 悬浮窗界面的XML或者View
+* `x` {number} x坐标
+* `y` {number} y坐标
 
 指定悬浮窗的布局，创建并**显示**一个原始悬浮窗，返回一个[FloatyRawWindow](#floatyrawwindow)对象。
 
