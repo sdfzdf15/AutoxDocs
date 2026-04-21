@@ -33,7 +33,6 @@ if (!floaty.checkPermission()) {
 ```
 
 ## floaty.window(layout[,  x = 0, y = 0])
-
 * `layout` {xml} | {View} 悬浮窗界面的XML或者View
 * `x` {number} x坐标
 * `y` {number} y坐标
