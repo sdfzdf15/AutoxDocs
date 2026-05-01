@@ -804,39 +804,1301 @@ ui.layout(
 
 # 帧布局: frame
 
-帧布局
+帧布局是最简单的布局，它默认从容器的左上角(0,0)坐标开始布局，多个子控件层叠排序，后面的控件会覆盖前面的控件。
 
-# 相对布局: relative
+参见 Android [FrameLayout](https://developer.android.google.cn/reference/android/widget/FrameLayout)。
 
+`gravity`
+
+设置布局的默认重力位置。默认为容器的左上角。比如设置`gravity="center"`后，它的子控件会默认居中显示。gravity 的详细字段说明参见[View.gravity](#gravity)。
+
+可以用`layout_gravity`单独控制子控件的重力，参见[View.layout_gravity](#layout_gravity)。
+
+以下是一个创建帧布局的示例代码：
+
+```js
+"ui";
+
+$ui.layout(
+    //设置前景图像及它的位置
+    <frame gravity="left|top" foreground="@drawable/ic_android_black_48dp" foregroundGravity="right|bottom">
+        <img w="*" h="*" />
+        //text控件设置不同大小与背景色,依次覆盖
+        <text w="300dp" h="300dp" background="#2F2F4F" />
+        <text w="200dp" h="200dp" background="#FF1CAE" />
+        <text w="100dp" h="100dp" background="#6B4226" />
+    </frame>
+);
+```
+
+`foreground`:
+
+设置改帧布局容器的前景图像，前景图像将永远处于帧布局最上面，不会被覆盖。`foreground`属性的取值可以是颜色、图片路径等，和背景`bg`属性类似，参见[bg](#bg)。
+
+`foregroundGravity`:
+
+设置前景图像（`foreground`）显示的位置。属性与`gravity`属性相同。
+
+# 帧布局: frame
+
+帧布局是最简单的布局，它默认从容器的左上角(0,0)坐标开始布局，多个子控件层叠排序，后面的控件会覆盖前面的控件。
+
+参见 Android [FrameLayout](https://developer.android.google.cn/reference/android/widget/FrameLayout)。
+
+`gravity`
+
+设置布局的默认重力位置。默认为容器的左上角。比如设置`gravity="center"`后，它的子控件会默认居中显示。gravity 的详细字段说明参见[View.gravity](#gravity)。
+
+可以用`layout_gravity`单独控制子控件的重力，参见[View.layout_gravity](#layout_gravity)。
+
+以下是一个创建帧布局的示例代码：
+
+```js
+"ui";
+
+$ui.layout(
+    //设置前景图像及它的位置
+    <frame gravity="left|top" foreground="@drawable/ic_android_black_48dp" foregroundGravity="right|bottom">
+        <img w="*" h="*" />
+        //text控件设置不同大小与背景色,依次覆盖
+        <text w="300dp" h="300dp" background="#2F2F4F" />
+        <text w="200dp" h="200dp" background="#FF1CAE" />
+        <text w="100dp" h="100dp" background="#6B4226" />
+    </frame>
+);
+```
+
+`foreground`:
+
+设置改帧布局容器的前景图像，前景图像将永远处于帧布局最上面，不会被覆盖。`foreground`属性的取值可以是颜色、图片路径等，和背景`bg`属性类似，参见[bg](#bg)。
+
+`foregroundGravity`:
+
+设置前景图像（`foreground`）显示的位置。属性与`gravity`属性相同。
 # 勾选框控件: checkbox
 
-# 选择框控件: radio
+勾选框是一种用于表示选择状态的控件，用户可以通过点击来切换其选中状态。
 
-# 选择框布局: radiogroup
+1.创建勾选框控件
+
+要创建一个勾选框控件，可以使用 ui.CheckBox 函数，并传入相应的参数来设置其属性。以下是一个创建勾选框控件的示例代码：
+
+```js
+"ui";
+
+ui.layout(
+    <vertical padding="16">
+        <checkbox id="cb" text="同意条款" checked="{{false}}" />
+    </vertical>
+);
+```
+
+在上述代码中：
+
+` id="cb"`:为勾选框控件设置了一个唯一的标识符，以便后续可以通过该 ID 来引用和操作该控件。
+
+` text="同意条款"`:设置了勾选框控件的文本标签，用于向用户显示相关信息。
+
+`checked="{{false}}"`:初始化勾选框控件的选中状态为未选中（false）。如果希望初始状态为选中，可以将值设置为 true
+
+2.获取和设置勾选框状态
+
+获取勾选框状态
+
+要获取勾选框控件的当前选中状态，可以使用 ui.cb.checked 属性。以下是一个获取勾选框状态的示例代码：
+
+```js
+ui.cb.on("check", function (checked) {
+    toast("当前选中状态：" + checked);
+});
+```
+
+在上述代码中：
+
+` ui.cb.on("check", function(checked) {...})`:为勾选框控件注册了一个 check 事件监听器，当勾选框的状态发生变化时，会触发该事件，并传递当前的选中状态（checked）作为参数。
+
+`toast("当前选中状态：" + checked)`:使用 toast 函数显示当前的选中状态。
+
+设置勾选框状态
+
+要设置勾选框控件的选中状态，可以直接修改 ui.cb.checked 属性的值。以下是一个设置勾选框状态的示例代码：
+
+```js
+ui.cb.checked = true; // 设置勾选框为选中状态
+```
+
+或者，你也可以在创建勾选框控件时，通过 checked 属性来设置初始状态，如之前所示。
+
+3.监听勾选框事件
+
+除了 check 事件外，还可以为勾选框控件注册其他事件监听器，例如 click 事件。以下是一个监听勾选框点击事件的示例代码：
+
+```js
+ui.cb.on("click", function () {
+    toast("勾选框被点击");
+});
+```
+
+在上述代码中：
+
+` ui.cb.on("click", function() {...})`:为勾选框控件注册了一个 click 事件监听器，当用户点击勾选框时，会触发该事件。
+
+`toast("勾选框被点击")`:使用 toast 函数显示一条提示信息，表示勾选框被点击。
+
+4.完整示例
+
+以下是一个完整的示例代码，演示了如何创建勾选框控件、获取和设置其状态，以及监听相关事件：
+
+```js
+"ui";
+
+ui.layout(
+    <vertical padding="16">
+        <checkbox id="cb" text="同意条款" checked="{{false}}" />
+        <button id="btnGetState" text="获取选中状态" />
+        <button id="btnSetState" text="设置为选中" />
+    </vertical>
+);
+
+// 监听勾选框的check事件
+ui.cb.on("check", function (checked) {
+    toast("当前选中状态：" + checked);
+});
+
+// 监听获取状态按钮的点击事件
+ui.btnGetState.on("click", function () {
+    toast("当前选中状态：" + ui.cb.checked);
+});
+
+// 监听设置状态按钮的点击事件
+ui.btnSetState.on("click", function () {
+    ui.cb.checked = true; // 设置勾选框为选中状态
+});
+```
+
+在上述代码中:
+
+创建了一个勾选框控件（`id="cb"`），并设置了初始状态为未选中。
+
+添加了两个按钮控件，分别用于获取勾选框的当前状态和设置勾选框为选中状态。
+
+为勾选框控件注册了 check 事件监听器，用于实时显示当前的选中状态。
+
+为获取状态按钮注册了 click 事件监听器，用于显示当前的选中状态。
+
+为设置状态按钮注册了 click 事件监听器，用于将勾选框设置为选中状态。
+
+**官方教程：**
+
+checkbox 控件即复选框，提供勾选交互的控件。
+
+参见 Android [CheckBox](https://developer.android.google.cn/reference/android/widget/CheckBox)
+
+`text`:
+
+checkbox 控件的文本，显示在勾选框后面。实际上 checkbox 控件继承于[text](http://localhost/docs/zh/v8/ui/advanced.html#文本控件-text)和[button](http://localhost/docs/zh/v8/ui/advanced.html#按钮控件-button)控件，它们的属性也可以用在 checkbox 上，比如`textSize`, `textStyle`。
+
+`checked`:
+
+设置 checkbox 的选中状态，当`checked="true"`为选中选项框，否则为未选中选项框。可以通过 attr 方法动态设置勾选框的状态。比如：`$ui.checkbox1.attr("checked", "true")`。
+
+`enabled`:
+
+设置复选框是否是启用的，若`enabled="false"`则为禁用状态，显示未灰色，无法交互。
+
+`isChecked()`:
+
+-   返回 {boolean}
+
+通过 isChecked 可以检测选项框当前是否被选中。如果被选中则返回为`true`，否则为`false`。
+
+事件: `check`:
+
+-   `checked` {boolean} 是否被勾选
+-   `view` {View} 当前事件的 View
+
+当用户勾选/取消勾选选项框时会触发该事件。
+
+例子:
+
+```js
+"ui";
+ui.layout(
+    <vertical padding="16">
+        <checkbox id="cb1" text="复选框" />
+        <checkbox id="cb2" checked="true" text="勾选的复选框" />
+        <checkbox id="cb3" text="被禁用的复选框" enabled="false" />
+    </vertical>
+);
+
+ui.cb1.on("check", (checked) => {
+    if (checked) {
+        toast("第一个框被勾选了");
+    } else {
+        toast("第一个框被取消勾选了");
+    }
+});
+
+// 修改cb3的checked属性
+$ui.cb3.attr("checked", "true");
+```
+# 单选框控件: radio
+
+单选按钮用于在多个互斥的选项中选择一个。在 Auto.js 中，通常将多个单选按钮放在一个 RadioGroup 中，以确保只能选择其中一个。
+
+创建单选按钮
+
+以下是一个创建单选按钮的示例代码：
+
+```js
+"ui";
+
+ui.layout(
+    <vertical padding="16">
+        <radiogroup id="rg">
+            <radio id="rb1" text="选项1" checked="{{true}}" />
+            <radio id="rb2" text="选项2" />
+            <radio id="rb3" text="选项3" />
+        </radiogroup>
+        <button id="btnGetSelected" text="获取选中的选项" />
+    </vertical>
+);
+```
+
+在上述代码中：
+
+`<radiogroup id="rg">`:定义了一个单选按钮组，所有包含在其中的单选按钮将互斥。
+
+`<radio id="rb1" text="选项1" checked="{{true}}" /> `:创建了一个单选按钮，并设置了初始状态为选中。
+其他两个单选按钮（`rb2`和`rb3`）初始状态为未选中。
+
+获取选中的单选按钮
+
+要获取当前选中的单选按钮，可以通过遍历 RadioGroup 中的单选按钮来实现。
+
+以下是一个获取选中单选按钮的示例代码：
+
+```js
+ui.btnGetSelected.on("click", function () {
+    for (let i = 0; i < ui.rg.getChildCount(); i++) {
+        let radio = ui.rg.getChildAt(i);
+        if (radio.checked) {
+            toast("选中的选项：" + radio.text);
+            break;
+        }
+    }
+});
+```
+
+在上述代码中：
+
+`ui.rg.getChildCount()`:获取单选按钮组中的子控件数量。
+
+`ui.rg.getChildAt(i)`:获取第 i 个子控件（即单选按钮）。
+
+` radio.checked`:判断当前单选按钮是否被选中。
+
+` toast("选中的选项：" + radio.text)`:显示当前选中的选项文本。
+
+**官方教程：**
+
+单选框只能选中一个选项，一般与 radiogroup 搭配使用。
+
+参见 Android [RadioButton](https://developer.android.google.cn/reference/android/widget/RadioButton)
+
+`text`:
+
+radio 控件的文本，显示在单选框后面。实际上 radio 控件也继承于[text](http://localhost/docs/zh/v8/ui/advanced.html#文本控件-text)和[button](http://localhost/docs/zh/v8/ui/advanced.html#按钮控件-button)控件，它们的属性也可以用在 radio 上，比如`textSize`, `textStyle`。
+
+`checked`:
+
+设置 radio 单选框的选中状态，当`checked="true"`为选中选项框，否则为未选中选项框。
+
+`enabled`:
+
+设置单选框是否是启用的，若`enabled="false"`则为禁用状态，显示未灰色，无法交互。
+
+`isChecked()`:
+
+-   返回 {boolean}
+
+返回选项框是否被选中，是则返回`true`，否则返回`false`。例如`$ui.radio1.isChecked()`。
+
+`check`:
+
+-   `checked` {boolean} 是否被勾选
+-   `view` {View} 当前事件的 View
+
+当用户勾选/取消勾选选项框时会触发该事件。
+
+例子：
+
+```js
+"ui";
+
+ui.layout(
+    <vertical padding="16">
+        <radio id="radio1" text="单选框1" />
+        <radio id="radio2" text="单选框2" />
+        <radio id="radio3" text="已勾选的单选框3" checked="true" />
+    </vertical>
+);
+// 监听单个radio的选中
+$ui.radio2.on("check", (checked) => {
+    if (checked) {
+        toastLog("单选框2被勾选了");
+    } else {
+        toastLog("单选框2被取消勾选了");
+    }
+});
+```
+
+# 单选框组控件: radiogroup
+
+示例代码:
+
+```js
+"ui";
+
+ui.layout(
+    <vertical padding="16">
+        <text text="请选择一个选项：" textSize="18sp" />
+        <radiogroup id="rg">
+            <radio id="rb1" text="选项1" checked="{{true}}" />
+            <radio id="rb2" text="选项2" />
+            <radio id="rb3" text="选项3" />
+        </radiogroup>
+
+        <text text="请选择一个或多个选项：" textSize="18sp" marginTop="16" />
+        <horizontal>
+            <checkbox id="cb1" text="复选选项1" checked="{{false}}" />
+            <checkbox id="cb2" text="复选选项2" checked="{{true}}" />
+            <checkbox id="cb3" text="复选选项3" checked="{{false}}" />
+        </horizontal>
+    </vertical>
+);
+```
+
+**官方教程：**
+
+radiogroup 单选框组合提供了几个单选框 radio 选项，但用户至多只能选择其中一个选项，即实现选项选中互斥功能。
+
+参见 Android [RadioGroup](https://developer.android.google.cn/reference/android/widget/RadioGroup)
+
+`checkedButton`:
+
+设置 radiogroup 单选框组合中初始勾选的单选框 id。例如`checkedButton="@+id/radio5"`，则使 id 为 radio5 的单选框选项为初始勾选状态。
+
+例子：
+
+```js
+"ui";
+
+$ui.layout(
+    <vertical padding="16">
+        <radiogroup checkedButton="@+id/radio5">
+            <radio id="radio4" text="单选框4" />
+            <radio id="radio5" text="初始勾选的单选框5" />
+            <radio id="radio6" text="单选框6" />
+        </radiogroup>
+    </vertical>
+);
+```
+
+`setOnCheckedChangeListener(listener)`:
+
+`listener`{Function} 勾选监听的回调函数，其参数为:
+
+-   `group` {RadioGroup} 发生勾选变化事件的 radiogroup 对象
+
+-   `checkedId` {number} 被勾选的 radio 的 id，是一个整数；若当前没有任何单选框被勾选，则为`-1`
+
+    设置某个 radiogroup 单选框组合中的单选框被选中时的监听。需要注意的是这里的`checkedId`是一个整数，并不是类似于`radio5`这样的 id 字符串，我们可以通过`findViewById()`函数来获取具体被勾选的单选框，比如：
+
+    ```js
+    "ui";
+
+    $ui.layout(
+        <vertical padding="16">
+            <radiogroup id="radiogroup1">
+                <radio id="radio1" text="单选框1" />
+                <radio id="radio2" text="单选框2" />
+                <radio id="radio3" text="单选框3" />
+            </radiogroup>
+        </vertical>
+    );
+
+    $ui.radiogroup1.setOnCheckedChangeListener((group, checkedId) => {
+        // 根据整数id获取勾选的radio控件
+        let checkedRadio = $ui.radiogroup1.findViewById(checkedId);
+        switch (checkedRadio) {
+            case $ui.radio1:
+                toastLog("单选框1被勾选");
+                break;
+            case $ui.radio2:
+                toastLog("单选框2被勾选");
+                break;
+            case $ui.radio3:
+                toastLog("单选框3被勾选");
+                break;
+            default:
+                toastLog("没有任何单选框被勾选");
+                break;
+        }
+    });
+    ```
+
+`getCheckedRadioButtonId()`:
+
+-   返回 {number}
+
+获取单选框组合中的已勾选的单选框选项的整数 ID，若当前没有任何单选框被勾选，则为`-1`。
+
+需要注意的是这里的`checkedId`是一个整数，并不是类似于`radio5`这样的 id 字符串，我们可以通过`findViewById()`函数来获取具体被勾选的单选框。
+
+进一步，我们可以通过`indexOfChild`获取被勾选的单选框在 radiogroup 中的位置。
+
+例如：
+
+```js
+"ui";
+
+$ui.layout(
+    <vertical padding="16">
+        <radiogroup id="radiogroup2">
+            <radio id="radio4" text="单选框4" />
+            <radio id="radio5" text="单选框5" />
+            <radio id="radio6" text="单选框6" />
+        </radiogroup>
+        <button id="get" text="获取当前勾选项" />
+    </vertical>
+);
+
+$ui.get.on("click", () => {
+    // 获取radiogroup2勾选的单选框ID
+    let checkedId = $ui.radiogroup2.getCheckedRadioButtonId();
+    if (checkedId === -1) {
+        toastLog("没有任何单选框被勾选");
+    } else {
+        // 根据id获取勾选的radio
+        let checkedRadio = $ui.radiogroup2.findViewById(checkedId);
+        // 获取勾选的位置
+        let i = $ui.radiogroup2.indexOfChild(checkedRadio);
+        toastLog("当前勾选的单选框的文本: " + checkedRadio.getText().toString() + ", 位置: " + i);
+    }
+});
+```
+
+`clearCheck()`:
+
+清空单选框组合的各单选框选项的勾选状态。也即让单选框组合重置为未勾选状态。
+
+例如:
+
+```js
+"ui";
+
+$ui.layout(
+    <vertical padding="16">
+        <checkbox id="cb1" text="复选框" />
+        <radiogroup id="radiogroup1">
+            <radio id="radio1" text="单选框1" />
+            <radio id="radio2" text="单选框2" />
+            <radio id="radio3" text="单选框3" />
+        </radiogroup>
+        <button id="clear" text="清空选择" />
+    </vertical>
+);
+
+$ui.clear.on("click", () => {
+    // 清空单选框选择
+    $ui.radiogroup1.clearCheck();
+    // 设置复选框为不勾选
+    $ui.cb1.attr("checked", "false");
+});
+```
 
 # 开关控件: switch
 
+在 Auto.js 中，开关控件（Switch） 是一种常用的用户界面元素，用于表示两种互斥的状态，通常为“开”和“关”。用户可以通过滑动或点击来切换开关的状态。
+
+以下是关于如何在 Auto.js 中使用开关控件的详细教程。
+
+1.创建开关控件
+
+要创建一个开关控件，可以使用 ui.Switch 函数，并传入相应的参数来设置其属性。
+
+以下是一个创建开关控件的示例代码：
+
+```js
+"ui";
+
+ui.layout(
+    <vertical padding="16">
+        <Switch id="sw" text="启用功能" checked="{{false}}" />
+    </vertical>
+);
+```
+
+在上述代码中：
+
+`id="sw"`:为开关控件设置了一个唯一的标识符，以便后续可以通过该 ID 来引用和操作该控件。
+
+` text="启用功能"`:设置了开关控件旁边显示的文本标签，用于向用户说明该开关的功能。
+
+` checked="{{false}}"`:初始化开关控件的状态为“关”（false）。如果希望初始状态为“开”，可以将值设置为 true。
+
+2.获取和设置开关状态
+
+获取开关状态
+
+要获取开关控件的当前状态，可以使用 ui.sw.checked 属性。
+
+以下是一个获取开关状态的示例代码：
+
+```js
+ui.sw.on("check", function (checked) {
+    toast("当前开关状态：" + (checked ? "开" : "关"));
+});
+```
+
+在上述代码中：
+
+`ui.sw.on("check", function(checked) {...})`:为开关控件注册了一个`check`事件监听器，当开关的状态发生变化时，会触发该事件，并传递当前的状态（`checked`）作为参数。
+
+` toast("当前开关状态：" + (checked ? "开" : "关"))`:使用`toast`函数显示当前的开关状态。如果`checked`为`true`，则显示“开”；否则显示“关”。
+
+设置开关状态
+
+要设置开关控件的状态，可以直接修改`ui.sw.checked`属性的值。
+
+以下是一个设置开关状态的示例代码：
+
+```js
+ui.sw.checked = true; // 设置开关为“开”状态
+```
+
+或者，你也可以在创建开关控件时，通过`checked`属性来设置初始状态，如之前所示。
+
+3.监听开关事件
+
+除了`check`事件外，还可以为开关控件注册其他事件监听器，例如`click`事件。
+
+以下是一个监听开关点击事件的示例代码：
+
+```js
+ui.sw.on("click", function () {
+    toast("开关被点击");
+});
+```
+
+在上述代码中：
+
+`ui.sw.on("click", function() {...})`:为开关控件注册了一个`click`事件监听器，当用户点击开关时，会触发该事件。
+
+` toast("开关被点击")`:使用`toast`函数显示一条提示信息，表示开关被点击。
+
+4.完整示例
+
+以下是一个完整的示例代码，演示了如何创建开关控件、获取和设置其状态，以及监听相关事件：
+
+```js
+"ui";
+
+ui.layout(
+    <vertical padding="16">
+        <Switch id="sw" text="启用功能" checked="{{false}}" />
+        <button id="btnGetState" text="获取开关状态" />
+        <button id="btnSetState" text="设置为开启" />
+    </vertical>
+);
+
+// 监听开关的check事件
+ui.sw.on("check", function (checked) {
+    toast("当前开关状态：" + (checked ? "开" : "关"));
+});
+
+// 监听获取状态按钮的点击事件
+ui.btnGetState.on("click", function () {
+    toast("当前开关状态：" + (ui.sw.checked ? "开" : "关"));
+});
+
+// 监听设置状态按钮的点击事件
+ui.btnSetState.on("click", function () {
+    ui.sw.checked = true; // 设置开关为“开”状态
+});
+```
+
+在上述代码中：
+
+创建了一个开关控件（`id="sw"`），并设置了初始状态为“关”。
+添加了两个按钮控件，分别用于获取开关的当前状态和设置开关为“开”状态。
+为开关控件注册了`check`事件监听器，用于实时显示当前的开关状态。
+为获取状态按钮注册了`click`事件监听器，用于显示当前的开关状态。
+为设置状态按钮注册了`click`事件监听器，用于将开关设置为“开”状态。
+
+**官方教程：**
+
+开关控件用于表示一个选项是否被启用。
+
+参见 Android [Switch](https://developer.android.google.cn/reference/android/widget/Switch)
+
+`text`:
+
+Switch 控件的文本，显示在框后面。实际上 Switch 控件也继承于[text](http://localhost/docs/zh/v8/ui/advanced.html#文本控件-text)和[button](http://localhost/docs/zh/v8/ui/advanced.html#按钮控件-button)控件，它们的属性也可以用在 Switch 上，比如`textSize`, `textStyle`。
+
+`checked`:
+
+设置 Switch 开关的开启状态，当`checked="true"`时为开启。
+
+`enabled`:
+
+设置 Switch 开关是否是启用的，若`enabled="false"`则为禁用状态，显示未灰色，无法交互。
+
+`isChecked()`:
+
+-   返回 {boolean}
+
+返回 Switch 控件是否是开启状态。比如`$ui.switch1.isChecked()`。
+
+事件: `check`:
+
+-   `checked` {boolean} 是否被勾选
+-   `view` {View} 当前事件的 View
+
+当用户勾选/取消勾选选项框时会触发该事件。
+
+例子：
+
+```js
+"ui";
+
+ui.layout(
+    <vertical padding="16">
+        <Switch id="sw" text="单选框1" />
+    </vertical>
+);
+
+// 监听的选中
+$ui.sw.on("check", (checked) => {
+    if (checked) {
+        toastLog("switch被打开了");
+    } else {
+        toastLog("switch被关闭了");
+    }
+});
+```
+
 # 进度条控件: progressbar
+
+**官方教程：**
+
+progressbar 即进度条控件，显示某种操作的进度及百分比。通过修改进度条控件的参数可以修改进度条的呈现形式，默认为无限圆形进度条。
+
+参见 Android [ProgressBar](https://developer.android.google.cn/reference/android/widget/ProgressBar)
+
+`indeterminate`:
+
+-   {boolean}
+
+是否为无限进度条，默认为`true`。可选的值为：
+
+-   `true` 显示无限进度条
+-   `false` 显示有限进度条
+
+`progress`:
+
+-   {number}
+
+进度条的进度，为一个整数，默认范围是 0~100。
+
+`min`:
+
+-   {number}
+
+进度条的最小进度，默认为 0。
+
+`max`:
+
+-   {number}
+
+进度条的最大进度，默认为 100。
+
+`progressDrawable`:
+
+-   {string}
+
+定义用于在 progress 模式下绘制进度条的 drawable。
+
+`progressBackgroundTint`:
+
+-   {string}
+
+对 progress 的背景应用颜色。不修改当前的着色模式。
+
+`progressBackgroundTintMode`:
+
+-   "add" | "multiply" | "screen" | "src_atop" | "src_in" | "src_over"
+
+将 progressBackgroundTint 指定的色调应用到进度背景的混合模式。
+
+`progressTint`:
+
+-   {string}
+
+将颜色应用于整个可绘制的进度。不修改当前的着色模式。
+
+`progressTintMode`:
+
+-   "add" | "multiply" | "screen" | "src_atop" | "src_in" | "src_over"
+
+将 progressTint 指定的色调应用到进度背景的混合模式。
+
+`secondaryProgress`:
+
+-   {number}
+
+设置次要进度的值。如果进度条处于 indeterminate（无限进度条）模式，则不执行任何操作。
+
+`secondaryProgressTint`:
+
+-   {string}
+
+对 secondaryProgress 应用色调（如果存在）。不修改当前的着色模式。
+
+`secondaryProgressTintMode`:
+
+-   "add" | "multiply" | "screen" | "src_atop" | "src_in" | "src_over"
+
+将 secondaryProgressTint 指定的色调应用到辅助进度指示器的混合模式。
+
+`style`:
+
+-   {string}
+
+设置进度条的宽度、布局样式。可选的值有：
+
+-   `@style/Base.Widget.AppCompat.ProgressBar.Horizontal` 水平直线进度条
+-   `@style/Base.Widget.AppCompat.ProgressBar` 圆形进度条
 
 # 拖动条控件: seekbar
 
+**官方教程：**
+
+可调节进度条，类似于 progressbar，但用户可以拖动控件来调节进度条。
+
+参见 Android [SeekBar](https://developer.android.google.cn/reference/android/widget/SeekBar)
+
+seekbar 继承自 progressbar，因此 progressbar 的属性它都能使用。
+
+通过方法[setOnSeekBarChangeListener](<https://developer.android.google.cn/reference/android/widget/SeekBar#setOnSeekBarChangeListener(android.widget.SeekBar.OnSeekBarChangeListener)>)可监听 seekbar 的拖动进度，通过[getProgress](<https://developer.android.google.cn/reference/android/widget/ProgressBar#getProgress()>)方法可随时获得 seekbar 的当前进度。
+
+例子：
+
+```js
+"ui";
+
+$ui.layout(
+    <vertical>
+        <seekbar id="seekbar" max="200" />
+        <button id="ok" text="确定" />
+    </vertical>
+);
+
+$ui.ok.on("click", () => {
+    toastLog("进度条当前进度:", $ui.seekbar.getProgress());
+});
+$ui.seekbar.setOnSeekBarChangeListener({
+    onProgressChanged: (seekbar, progress, fromUser) => {
+        consoloe.log("进度: ", progress);
+    },
+});
+```
 # 下来菜单控件: spinner
 
+**官方教程：**
+
+点击下拉箭头，可弹出多个选项供用户选择。
+
+参见 Android [Spinner](https://developer.android.google.cn/reference/android/widget/Spinner)
+
+`spinnerMode`:
+
+-   {string}
+
+下拉菜单的呈现模式。默认为 dropdown 下拉菜单形式。
+
+-   `dialog` 使用对话框模式菜单来选择 spinner 选项。
+-   `dropdown`使用下拉模式菜单来选择 spinner 选项。
+
+`dropDownHorizontalOffset`:
+
+-   {string}
+
+为 spinner 的选择弹出窗口设置水平偏移。仅在 spinnerMode=`dropdown`时有效。
+
+`dropDownVerticalOffset`:
+
+-   {string}
+
+为 spinner 的选择弹出窗口设置垂直偏移。仅在 spinnerMode=`dropdown`时有效。
+
+`dropDownWidth`:
+
+-   {string}
+
+设置 spinner 的选择弹出窗口的宽度。仅在 spinnerMode=`dropdown`时有效。
+
+`popupBackground`:
+
+-   {string}
+
+为 spinner 的选择弹出窗口设置背景。仅在 spinnerMode=`dropdown`时有效。
+
+`prompt`：
+
+-   {string}
+
+设置显示对话框时显示的提示。
+
+`textStyle`:
+
+-   {string}
+
+设置 spinner 当前被选择的项目文本的样式，例如`bold`(加粗), `italic`(斜体)等。
+
+`textColor`:
+
+-   {string}
+
+设置 spinner 当前被选择的项目文本的颜色，例如`bold`(加粗), `italic`(斜体)等。
+
+`textSize`:
+
+-   {string}
+
+设置 spinner 当前被选择的项目文本的字体尺寸大小。
+
+`entries`:
+
+-   {string}
+
+下拉菜单的选项具体内容。若有多个选项，可使用|隔开，例如 entries="选项 1|选项 2|选项 3"。
+
+`entryTextStyle`:
+
+-   {string}
+
+下拉菜单的选项具体内容的文本样式。
+
+`entryTextColor`:
+
+-   {string}
+
+下拉菜单的选项具体内容的文本颜色。
+
+`entryTextSize`:
+
+-   {string}
+
+下拉菜单的选项具体内容的字体尺寸大小。
 # 时间选择控件: timepicker
 
+**官方教程：**
+
+用户可以选择 24 小时内的任意时间，呈现内容为上午/下午 XX（时）：XX（分）。
+
+参见 Android [TimePicker](https://developer.android.google.cn/reference/android/widget/TimePicker)
+
+`timePickerMode`：
+
+-   {string}
+
+时间选择界面的呈现模式。若用户在 timePicker 控件中未指定 timePickerMode，则默认使用时钟样式`clock`时间选择。
+
+-   `spinner` 滑动样式时间选择模式。
+-   `clock` 时钟样式。
 # 日期选择控件: datepicker
 
+**官方教程：**
+
+用户可以选择日期，呈现内容为"MM/dd/yyyy"，日历样式日期选择模式还可呈现该日期的星期，如周二。
+
+参见 Android [DatePicker](https://developer.android.google.cn/reference/android/widget/DatePicker)
+
+`datePickerMode`:
+
+-   {string}
+
+日期选择界面的呈现模式。若用户在 datePicker 控件中未指定 datePickerMode，则默认使用日历样式`calendar`时间选择。
+
+-   `spinner` 滑动样式日期选择模式。
+-   `calendar` 日历样式选择模式。
+
+`spinnersShown`:
+
+-   {boolean}
+
+设置是否显示 spinner 滑动样式日期选择模式。
+
+`calendarViewShown`:
+
+-   {boolean}
+
+设置是否显示日历样式。
+
+`firstDayOfWeek`:
+
+-   {number}
+
+设置一周的第一天。范围为 1~7，分别代表周日~周六。默认为 1，也即周日。
+
+`maxDate`:
+
+-   {string}
+
+设置此 datePicker 支持的最大日期，格式为`yyyy/MM/dd`。
+
+`minDate`:
+
+-   {string}
+
+设置此 datePicker 支持的最小日期，格式为`yyyy/MM/dd`。
 # 浮动按钮控件: fab
+
+**官方教程：**
+
+浮动按钮是 UI 界面上的一个浮动的图标，它的颜色、图标、位置在 UI 界面中有着明显的区别，通常是为了突出一个重要的功能点，引导用户点击来执行重要/频繁的操作。
+![fab1](images/fab.6cb46475.png)
+`src`:
+
+指定浮动按钮的图标，其格式与图片控件属性[src](#src)一致，比如`@drawable/ic_add_black_48dp`，`https://图片网址`等。
+
+以下是一个放在右下角的浮动按钮的例子：
+
+```js
+"ui";
+
+ui.layout(
+    <frame>
+        <fab id="add" w="auto" h="auto" src="@drawable/ic_add_black_48dp" margin="16" layout_gravity="bottom|right" tint="#ffffff" />
+    </frame>
+);
+
+ui.add.on("click", () => {
+    toastLog("浮动按钮被点击了");
+});
+```
 
 # 标题栏控件: toolbar
 
+**官方教程：**
+
+应用程序中使用的标题栏。
+
+### logo
+
+为标题栏设置一个可绘制的 logo。
+
+`logoDescription`:
+
+为标题栏设置 logo 的描述。
+
+`navigationIcon`:
+
+为标题栏设置导航按钮的内容描述（如果存在）。内容描述将通过屏幕阅读器或其他辅助系统阅读，以解释导航按钮的操作。
+
+`popupTheme`:
+
+指定标题栏弹出菜单时使用的主题。默认情况下，使用与标题栏本身相同的主题。
+
+`title`:
+
+设置此标题栏的标题。标题应该用作内容部分的锚点。它应该描述或命名正在查看的内容。
+
+`titleTextColor`:
+
+设置此标题栏的标题的文本颜色。
+
+`titleMargin`:
+
+设置标题边距。
+
+`titleMarginBottom`:
+
+设置底部标题边距。
+
+`titleMarginTop`:
+
+设置顶部标题边距。
+
+`titleMarginStart`:
+
+设置起始标题边距。
+
+`titleMarginEnd`:
+
+设置结束标题边距。
+
+`subtitle`:
+
+设置此标题栏的副标题。
+
+`subtitleTextColor`:
+
+设置此标题栏的副标题的文本颜色。
+
 # 卡片: card
+
+**官方教程：**
+
+卡片控件是一个拥有圆角、阴影的控件。
+
+`ardBackgroundColor`:
+
+卡片的背景颜色。比如 cardBackgroundColor="#ffffff"。
+
+`cardCornerRadius`:
+
+卡片的圆角半径。
+
+`cardElevation`:
+
+设置卡片在 z 轴上的高度，来控制阴影的大小。
+
+`contentPadding`:
+
+设置卡片的内边距。该属性包括四个值：
+
+-   `contentPaddingLeft` 左内边距
+-   `contentPaddingRight` 右内边距
+-   `contentPaddingTop` 上内边距
+-   `contentPaddingBottom` 下内边距
+
+`foreground`:
+
+使用`foreground="?selectableItemBackground"`属性可以为卡片添加点击效果。
 
 # 抽屉布局: drawer
 
 # 列表: list
 
+**官方教程：**
+
+参见 Android [RecyclerView](https://developer.android.google.cn/reference/androidx/recyclerview/widget/RecyclerView)
+
+事件:` item_click`:
+
+当用户点击一个 List 中的项时会触发该事件。
+
+例子：
+
+```js
+"ui";
+$ui.layout(
+    <frame>
+        <list id="list">
+            <vertical>
+                <text id="name" textSize="16sp" textColor="#000000" text="姓名: {{name}}" />
+                <text id="age" textSize="16sp" textColor="#000000" text="年龄: {{age}}岁" />
+            </vertical>
+        </list>
+    </frame>
+);
+var items = [
+    {
+        name: "小明",
+        age: 18,
+    },
+    {
+        name: "小红",
+        age: 30,
+    },
+];
+$ui.list.setDataSource(items);
+$ui.list.on("item_click", function (item, i, itemView, listView) {
+    toast("被点击的人名字为: " + item.name + "，年龄为: " + item.age);
+});
+```
+
+事件:` item_click`:
+
+-   `item` {any} 被点击的列表项的数据
+-   `i` {number} 被点击的列表项的位置
+-   `itemView` {View} 被点击的列表项的 View
+-   `listView` {View} 当前列表控件
+
+当用户点击一个 List 中的项时会触发该事件。
+
+例子：
+
+```js
+"ui";
+$ui.layout(
+    <frame>
+        <list id="list">
+            <vertical>
+                <text id="name" textSize="16sp" textColor="#000000" text="姓名: {{name}}" />
+                <text id="age" textSize="16sp" textColor="#000000" text="年龄: {{age}}岁" />
+            </vertical>
+        </list>
+    </frame>
+);
+var items = [
+    {
+        name: "小明",
+        age: 18,
+    },
+    {
+        name: "小红",
+        age: 30,
+    },
+];
+$ui.list.setDataSource(items);
+$ui.list.on("item_click", function (item, i, itemView, listView) {
+    toast("被点击的人名字为: " + item.name + "，年龄为: " + item.age);
+});
+```
+
+事件: `item_long_click`:
+
+-   `event`{object} 事件，字段有：
+    -   `consumed` {boolean} 设置此事件是否被消费
+    -   `view` {View} 此事件对应的 View
+-   `item` {any} 被点击的列表项的数据
+-   `i` {number} 被点击的列表项的位置
+-   `itemView` {View} 被点击的列表项的 View
+-   `listView` {View} 当前列表控件
+
+当用户长按一个 List 中的项时会触发该事件。
+
+事件: `item_bind`:
+
+-   `itemView` {View} 当前列表项的 View
+-   `itemHolder`{object} 当前列表项的管理对象，可动态获取列表项的位置和数据。
+    -   `item` {any} 获取列表项的数据
+    -   `position` {number} 获取列表项的位置
+
+当列表创建一个新的列表项的 View 时触发该事件。实际上列表控件不会为列表控件的每个项目创建一个单独的 View，假设列表为 2000 个，屏幕最多显示 10 个，那么列表控件只会创建 10 个左右的 View。
+
+这个事件通常用于对列表项的 View 设置事件回调，比如：
+
+```js
+"ui";
+$ui.layout(
+    <frame>
+        <list id="list">
+            <vertical>
+                <text id="name" textSize="16sp" textColor="#000000" text="姓名: {{this.name}}" />
+                <checkbox id="checkbox" checked="{{this.checked}}" />
+            </vertical>
+        </list>
+    </frame>
+);
+var items = [
+    {
+        name: "小明",
+        checked: false,
+    },
+    {
+        name: "小红",
+        checked: false,
+    },
+];
+$ui.list.setDataSource(items);
+
+$ui.list.on("item_bind", function (itemView, itemHolder) {
+    itemView.checkbox.on("check", function (checked) {
+        let item = itemHolder.item;
+        item.checked = checked;
+        console.log(item);
+    });
+});
+```
+
+事件: `item_data_bind`:
+
+-   `itemView` {View} 当前列表项的 View
+-   `itemHolder`{object} 当前列表项的管理对象，可获取列表项的位置和数据。
+    -   `item` {any} 获取列表项的数据
+    -   `position` {number} 获取列表项的位置
+
+当列表将一个列表项的数据绑定到列表项的 View 时触发该事件。
+
+例子:
+
+```js
+"ui";
+$ui.layout(
+    <frame>
+        <list id="list">
+            <vertical>
+                <text id="name" textSize="16sp" textColor="#000000" text="姓名: {{this.name}}" />
+                <checkbox id="checkbox" checked="{{this.checked}}" />
+            </vertical>
+        </list>
+    </frame>
+);
+var items = [
+    {
+        name: "小明",
+        checked: false,
+    },
+    {
+        name: "小红",
+        checked: false,
+    },
+];
+$ui.list.setDataSource(items);
+
+$ui.list.on("item_data_bind", function (itemView, itemHolder) {
+    let item = itemHolder.item;
+    itemView.name.setTextColor(item.checked ? $colors.RED : $colors.BLACK);
+});
+
+$ui.list.on("item_bind", function (itemView, itemHolder) {
+    itemView.checkbox.on("check", function (checked) {
+        let item = itemHolder.item;
+        item.checked = checked;
+        $ui.list.getAdapter().notifyItemChanged(itemHolder.position);
+    });
+});
+```
+
 # Tab: tab
+
+**官方教程：**
+
+参见 Android [TabLayout](https://developer.android.google.cn/reference/com/google/android/material/tabs/TabLayout)
+
+选项卡布局。
+
+tabGravity
+
+设置布局选项卡时使用的 gravity 重力。可以参考博客[tabMode 和 tabGravity 配合使用效果对比](https://blog.csdn.net/wjr1949/article/details/72473052)。
+
+`tabIndicatorColor`:
+
+为当前选定的选项卡设置选项卡指示器的颜色。
+
+`tabIndicatorHeight`:
+
+为当前选定的选项卡设置选项卡指示器的高度。
+
+`tabMode`:
+
+设置此布局中选项卡的行为模式。包括：
+
+-   `fixed` 固定选项卡同时显示所有选项卡，最适合与受益于选项卡之间快速旋转的内容一起使用。
+-   `scrollable` 可滚动选项卡在任何给定时刻显示选项卡的子集，并且可以包含更长的选项卡标签和更多的选项卡。当用户不需要直接比较选项卡标签时，它们最适合用于浏览触摸界面中的上下文。
+
+`tabTextColor`:
+
+设置用于选项卡的正常状态的文本颜色。
+
+`tabSelectedTextColor`:
+
+设置用于选项卡的选定状态的文本颜色。
 
 # ui
 
