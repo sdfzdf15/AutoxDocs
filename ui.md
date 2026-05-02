@@ -839,6 +839,116 @@ $ui.layout(
 
 设置前景图像（`foreground`）显示的位置。属性与`gravity`属性相同。
 
+
+# 抽屉布局: drawer
+抽屉布局（DrawerLayout）用于实现侧滑抽屉菜单，支持左侧、右侧抽屉。
+
+参见 Android [DrawerLayout](https://developer.android.google.cn/reference/androidx/drawerlayout/widget/DrawerLayout)。
+
+
+## 核心规则
+1.  **必须设置 `id="drawer"`**
+2.  布局内必须包含 **2 个直接子控件**：
+    *   第一个：**主界面内容**
+    *   第二个：**抽屉侧边栏**
+3.  抽屉必须设置 `layout_gravity`：
+    *   `left`：左侧抽屉
+    *   `right`：右侧抽屉
+
+## 关键方法
+```js
+// 打开左侧
+ui.drawer.openDrawer(0x00000003);
+// 关闭左侧
+ui.drawer.closeDrawer(0x00000003);
+
+// 打开右侧
+ui.drawer.openDrawer(0x00000005);
+// 关闭右侧
+ui.drawer.closeDrawer(0x00000005);
+```
+
+## 左侧抽屉
+```js
+"ui";
+
+ui.layout(
+    <drawer id="drawer" w="match_parent" h="match_parent">
+
+        <!-- 主界面 -->
+        <vertical bg="#ffffff" padding="20" gravity="center">
+            <text text="主界面" textSize="22sp" />
+            <text text="左滑打开左侧抽屉" textSize="22sp" />
+            <button id="openLeft" text="打开左侧抽屉" layout_marginTop="20dp" />
+        </vertical>
+
+        <!-- 左侧抽屉 -->
+        <vertical
+            layout_gravity="left"
+            w="260dp"
+            h="match_parent"
+            bg="#f9f9f9"
+            padding="20dp">
+            
+            <text text="侧边菜单" textSize="20sp" />
+            <text text="首页" layout_marginTop="20dp" />
+            <text text="设置" layout_marginTop="20dp" />
+            <button id="closeLeft" text="关闭抽屉" layout_marginTop="30dp" />
+        </vertical>
+
+    </drawer>
+);
+
+// 打开左侧抽屉 【使用 0x00000003 绝对稳定】
+ui.openLeft.click(function () {
+    ui.drawer.openDrawer(0x00000003);// 左侧
+});
+
+// 关闭左侧抽屉
+ui.closeLeft.click(function () {
+    ui.drawer.closeDrawer(0x00000003);
+});
+```
+
+## 右侧抽屉
+```js
+"ui";
+
+ui.layout(
+    <drawer id="drawer" w="match_parent" h="match_parent">
+
+        <vertical bg="#ffffff" padding="20" gravity="center">
+            <text text="主界面" textSize="22sp" />
+            <text text="右滑打开右侧抽屉" textSize="22sp" />
+            <button id="openRight" text="打开右侧抽屉" layout_marginTop="20dp" />
+        </vertical>
+
+        <vertical
+            layout_gravity="right"
+            w="260dp"
+            h="match_parent"
+            bg="#f9f9f9"
+            padding="20dp">
+            
+            <text text="侧边菜单" textSize="20sp" />
+            <text text="首页" layout_marginTop="20dp" />
+            <text text="设置" layout_marginTop="20dp" />
+            <button id="closeRight" text="关闭抽屉" layout_marginTop="30dp" />
+        </vertical>
+
+    </drawer>
+);
+
+ui.openRight.click(()=>{
+    ui.drawer.openDrawer(0x00000005); // 右侧
+});
+
+ui.closeRight.click(()=>{
+    ui.drawer.closeDrawer(0x00000005);
+});
+```
+
+
 # 相对布局: relative
 相对布局会把在它里面的控件以父容器和兄弟控件作为参照来确定控件的位置。
 
@@ -1967,114 +2077,6 @@ ui.add.on("click", () => {
 `foreground`:
 
 使用`foreground="?selectableItemBackground"`属性可以为卡片添加点击效果。
-
-# 抽屉布局: drawer
-抽屉布局（DrawerLayout）用于实现侧滑抽屉菜单，支持左侧、右侧抽屉。
-
-参见 Android [DrawerLayout](https://developer.android.google.cn/reference/androidx/drawerlayout/widget/DrawerLayout)。
-
-
-## 核心规则
-1.  **必须设置 `id="drawer"`**
-2.  布局内必须包含 **2 个直接子控件**：
-    *   第一个：**主界面内容**
-    *   第二个：**抽屉侧边栏**
-3.  抽屉必须设置 `layout_gravity`：
-    *   `left`：左侧抽屉
-    *   `right`：右侧抽屉
-
-## 关键方法
-```js
-// 打开左侧
-ui.drawer.openDrawer(0x00000003);
-// 关闭左侧
-ui.drawer.closeDrawer(0x00000003);
-
-// 打开右侧
-ui.drawer.openDrawer(0x00000005);
-// 关闭右侧
-ui.drawer.closeDrawer(0x00000005);
-```
-
-## 左侧抽屉
-```js
-"ui";
-
-ui.layout(
-    <drawer id="drawer" w="match_parent" h="match_parent">
-
-        <!-- 主界面 -->
-        <vertical bg="#ffffff" padding="20" gravity="center">
-            <text text="主界面" textSize="22sp" />
-            <text text="左滑打开左侧抽屉" textSize="22sp" />
-            <button id="openLeft" text="打开左侧抽屉" layout_marginTop="20dp" />
-        </vertical>
-
-        <!-- 左侧抽屉 -->
-        <vertical
-            layout_gravity="left"
-            w="260dp"
-            h="match_parent"
-            bg="#f9f9f9"
-            padding="20dp">
-            
-            <text text="侧边菜单" textSize="20sp" />
-            <text text="首页" layout_marginTop="20dp" />
-            <text text="设置" layout_marginTop="20dp" />
-            <button id="closeLeft" text="关闭抽屉" layout_marginTop="30dp" />
-        </vertical>
-
-    </drawer>
-);
-
-// 打开左侧抽屉 【使用 0x00000003 绝对稳定】
-ui.openLeft.click(function () {
-    ui.drawer.openDrawer(0x00000003);// 左侧
-});
-
-// 关闭左侧抽屉
-ui.closeLeft.click(function () {
-    ui.drawer.closeDrawer(0x00000003);
-});
-```
-
-## 右侧抽屉
-```js
-"ui";
-
-ui.layout(
-    <drawer id="drawer" w="match_parent" h="match_parent">
-
-        <vertical bg="#ffffff" padding="20" gravity="center">
-            <text text="主界面" textSize="22sp" />
-            <text text="右滑打开右侧抽屉" textSize="22sp" />
-            <button id="openRight" text="打开右侧抽屉" layout_marginTop="20dp" />
-        </vertical>
-
-        <vertical
-            layout_gravity="right"
-            w="260dp"
-            h="match_parent"
-            bg="#f9f9f9"
-            padding="20dp">
-            
-            <text text="侧边菜单" textSize="20sp" />
-            <text text="首页" layout_marginTop="20dp" />
-            <text text="设置" layout_marginTop="20dp" />
-            <button id="closeRight" text="关闭抽屉" layout_marginTop="30dp" />
-        </vertical>
-
-    </drawer>
-);
-
-ui.openRight.click(()=>{
-    ui.drawer.openDrawer(0x00000005); // 右侧
-});
-
-ui.closeRight.click(()=>{
-    ui.drawer.closeDrawer(0x00000005);
-});
-```
 
 
 # 列表: list
