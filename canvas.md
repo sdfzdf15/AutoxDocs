@@ -36,3 +36,30 @@ canvas.drawRect(0, 0, 100, 100, paint);
 
 ## canvas.draw
  
+ 例子：
+ ```js
+ let flo = floaty.rawWindow(
+    <frame>
+        <frame id="frame">
+            <canvas id="board" w="{{device.width}}" h="{{device.height}}" />
+        </frame>
+    </frame>
+);
+flo.setTouchable(false);
+//画笔
+let paint = new Paint();
+flo.board.on("draw", function(canvas) {
+    //清空内容，以便后面重绘
+    canvas.drawColor(0xFFFFFF, android.graphics.PorterDuff.Mode.CLEAR)
+    //设置画笔宽度
+    paint.setStrokeWidth(10)
+    // 设置画笔颜色为红色(paint.setColor()这个函数部分手机显示有问题,用这个paint.setARGB())
+    paint.setARGB(255, 255, 0, 0)
+    paint.setStyle(Paint.Style.STROKE); // 填充 FILL实心的 STROKE空心
+
+    canvas.drawRect(200, 300, 400, 500, paint)
+
+});
+
+setInterval(function() {}, 1000);
+ ```
