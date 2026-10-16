@@ -1949,6 +1949,12 @@ $ui.seekbar.setOnSeekBarChangeListener({
 
 下拉菜单的选项具体内容的字体尺寸大小。
 
+`setSelection(position)`:
+
+-   {number}
+
+设置 spinner 当前被选择的项目的索引位置。
+
 `getSelectedItemPosition()`:
 
 -   {number}
