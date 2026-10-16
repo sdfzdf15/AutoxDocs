@@ -1949,8 +1949,21 @@ $ui.seekbar.setOnSeekBarChangeListener({
 
 下拉菜单的选项具体内容的字体尺寸大小。
 
+`getSelectedItemPosition()`:
 
-其他例子
+-   {number}
+
+获取 spinner 当前被选择的项目的索引位置。
+
+
+`getSelectedItem()`:
+
+-   {string}
+
+获取 spinner 当前被选择的项目文本。
+
+
+其他例子(设置下拉弹窗最大高度)
 ```js
 "ui";
 
