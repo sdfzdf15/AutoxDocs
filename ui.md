@@ -1515,7 +1515,55 @@ $ui.clear.on("click", () => {
     $ui.cb1.attr("checked", "false");
 });
 ```
+radiogroup里的选项没有字符串ID，只能通过整数ID来获取
+例如:
 
+```js
+"ui";
+
+ui.layout(
+    <vertical padding="16">
+        <radiogroup id="radiogroup2" />
+    </vertical>
+);
+
+
+// 选项数组
+let radioList = [
+    "单选框1",
+    "单选框2",
+    "单选框3"
+];
+let defaultIndex = 1; // 默认选中第2项（数组下标从0开始）
+let rg = ui.radiogroup2;
+radioList.forEach((text, idx) => {
+    let r = ui.inflate(<radio />, null, false);
+    r.setText(text);
+    rg.addView(r);
+    // 设置默认选中
+    if (idx === defaultIndex) {
+        // r.checked = true;
+        // 或rg.check(r.getId());会同时更新 radiogroup 内部记录的选中 ID
+        //rg.check(-1) 可以清空全部选中
+        rg.check(r.getId());
+    }
+});
+ui.post(() => {
+    // 获取radiogroup2勾选的单选框ID(整数ID)
+    let checkedId = ui.radiogroup2.getCheckedRadioButtonId();
+    log("整数ID:" + checkedId)
+    if (checkedId === -1) {
+        toastLog("没有任何单选框被勾选");
+    } else {
+        // 根据id获取勾选的radio
+        let checkedRadio = ui.radiogroup2.findViewById(checkedId);
+        log("勾选的radio对象:" + checkedRadio)
+        // 获取勾选的位置
+        let index = ui.radiogroup2.indexOfChild(checkedRadio);
+        log("勾选的位置:" + index)
+    }
+})
+```
 # 开关控件: switch
 
 在 Auto.js 中，开关控件（Switch） 是一种常用的用户界面元素，用于表示两种互斥的状态，通常为“开”和“关”。用户可以通过滑动或点击来切换开关的状态。
@@ -1900,6 +1948,37 @@ $ui.seekbar.setOnSeekBarChangeListener({
 -   {string}
 
 下拉菜单的选项具体内容的字体尺寸大小。
+
+
+其他例子
+```js
+"ui";
+
+ui.layout(
+    <vertical padding="16">
+      <spinner id="sp_page" h="30" w="auto" spinnerMode="dropdown" 
+                   entries="1|2|3|4|5|6|7|8|9|10|20|40|60|80|100|200|300|400|500|600|700|800|900|1000"  
+                   bg="#E9E9E9" entryTextColor="#9fcb1b" gravity="center" 
+                   popupBackground="#ffffff" />
+    </vertical>
+);
+
+// ===== 重点：设置下拉弹窗最大高度（单位px，例子350像素）
+ui.post(()=>{
+    let sp = ui.sp_page;
+    try {
+        var dcl = context.getClassLoader();
+        var clazz = dcl.loadClass("androidx.appcompat.widget.AppCompatSpinner");
+        let popupField = clazz.getDeclaredField("mPopup");
+        popupField.setAccessible(true);
+        let popupWindow = popupField.get(sp);
+        popupWindow.setHeight(350); // 修改这里，下拉弹窗高度px
+    }catch(e){
+        log("设置spinner下拉高度失败:"+e);
+    }
+},200);
+```
+
 # 时间选择控件: timepicker
 
 **官方教程：**
