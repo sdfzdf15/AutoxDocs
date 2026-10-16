@@ -1322,7 +1322,7 @@ radio 控件的文本，显示在单选框后面。实际上 radio 控件也继�
 
 返回选项框是否被选中，是则返回`true`，否则返回`false`。例如`$ui.radio1.isChecked()`。
 
-`check`:
+## 事件: `check`:
 
 -   `checked` {boolean} 是否被勾选
 -   `view` {View} 当前事件的 View
